@@ -1,7 +1,13 @@
 const TMDB = window.theMovieDb
 
+let noMorePages = false
 function addMovies(response) {
-  const movies = JSON.parse(response).results
+  const res = JSON.parse(response)
+  const currentPage = res.page
+  const totalPages = res.total_pages
+  if (currentPage >= totalPages) { noMorePages = true }
+
+  const movies = res.results
   const $movies = document.querySelector('.movies')
 
   movies.forEach((movie) => {
@@ -17,16 +23,48 @@ function addMovies(response) {
   })
 }
 
-const body = document.querySelector('body')
-document.addEventListener('scroll', () => {
-  if (body.scrollTop + body.clientHeight >= body.scrollHeight - 300) {
-    load()
+function clearMovies() {
+  const $movies = document.querySelector('.movies')
+  while ($movies.firstChild) {
+    $movies.removeChild($movies.firstChild)
+  }
+}
+
+let query = ''
+let searching = false
+const search = document.querySelector('#search')
+search.addEventListener('input', (evt) => {
+  noMorePages = false
+  searchPage = 1
+  clearMovies()
+  query = evt.target.value
+  if (!query) {
+    searching = false
+    popularPage = 1
+    loadPopular(popularPage)
+  } else {
+    searching = true
+    loadSearch(searchPage)
   }
 })
 
-let page = 1
-function load() {
-  TMDB.movies.getPopular({ page: page++ }, addMovies, console.error)
+let popularPage = 1
+let searchPage = 1
+const body = document.querySelector('body')
+document.addEventListener('scroll', () => {
+  if (body.scrollTop + body.clientHeight >= body.scrollHeight - 300) {
+    searching ? loadSearch(searchPage++) : loadPopular(popularPage++)
+  }
+})
+
+function loadPopular(page) {
+  if (noMorePages) return
+  TMDB.movies.getPopular({ page: page }, addMovies, console.error)
 }
 
-load()
+function loadSearch(page) {
+  if (noMorePages) return
+  TMDB.search.getMovie({ query: query, page: page }, addMovies, console.error)
+}
+
+loadPopular()
