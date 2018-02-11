@@ -1,9 +1,9 @@
 body {
   margin: 0 auto;
+  font-family: "Avenir Next";
 }
 
 h1 {
-  font-family: "Avenir Next";
   font-size: 36px;
   font-weight: bold;
   text-align: center;
@@ -30,4 +30,8 @@ h1 {
 
 .main a img {
   width: 100%;
+}
+
+.search-form {
+  text-align: center;
 }
