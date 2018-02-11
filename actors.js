@@ -6,6 +6,8 @@ function addActors(response) {
   const $actors = document.querySelector('.actors')
 
   actors.forEach((actor) => {
+    if (actor.profile_path === null) return
+
     const $link = document.createElement('a')
     $link.href = 'actor-characters.html?id=' + actor.id
     $link.className = 'actor'

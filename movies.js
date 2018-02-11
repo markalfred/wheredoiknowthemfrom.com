@@ -11,6 +11,8 @@ function addMovies(response) {
   const $movies = document.querySelector('.movies')
 
   movies.forEach((movie) => {
+    if (movie.poster_path === null) return
+
     const $link = document.createElement('a')
     $link.href = './movie-actors.html?id=' + movie.id
     $link.className = 'movie'

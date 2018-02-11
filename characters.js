@@ -16,12 +16,15 @@ function addCharacters(creditsResponse, imagesResponse) {
   const $characters = document.querySelector('.characters')
 
   imgCharMap.forEach(([character, image]) => {
+    const file = ((image && image.file_path) || character.poster_path)
+    if (file === null) return
+
     const $link = document.createElement('a')
     $link.href = 'character.html?id=' + character.id
     $link.className = 'character'
 
     const $img = document.createElement('img')
-    $img.src = TMDB.common.getImage({ file: ((image && image.file_path) || character.poster_path) })
+    $img.src = TMDB.common.getImage({ file: file })
 
     $link.appendChild($img)
 
