@@ -17,4 +17,16 @@ function addMovies(response) {
   })
 }
 
-TMDB.movies.getPopular({ page: 1 }, addMovies, console.error)
+const body = document.querySelector('body')
+document.addEventListener('scroll', () => {
+  if (body.scrollTop + body.clientHeight >= body.scrollHeight - 300) {
+    load()
+  }
+})
+
+let page = 1
+function load() {
+  TMDB.movies.getPopular({ page: page++ }, addMovies, console.error)
+}
+
+load()
