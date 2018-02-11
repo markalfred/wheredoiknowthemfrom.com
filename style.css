@@ -1,3 +1,7 @@
+body {
+  margin: 0 auto;
+}
+
 h1 {
   font-family: "Avenir Next";
   font-size: 36px;
@@ -9,4 +13,21 @@ h1 {
   padding-bottom: 44px;
   padding-left: 44px;
   padding-right: 44px;
+}
+
+.main {
+  margin-top: 2px;
+  margin-left: 2px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main a {
+  flex: 1 1 auto;
+  margin-right: 2px;
+  margin-bottom: 2px;
+}
+
+.main a img {
+  width: 100%;
 }
