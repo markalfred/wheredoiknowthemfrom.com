@@ -1,48 +1,26 @@
 const TMDB = window.theMovieDb
 const id = parseInt(window.location.search.replace('?id=', ''))
 
-function addCharacters(creditsResponse, imagesResponse) {
-  const characters = JSON.parse(creditsResponse).cast
-  const images = JSON.parse(imagesResponse).results
+const byPopularity = (a, b) => a.popularity < b.popularity ? 1 : -1
+const hasPoster = x => x.poster_path !== null
 
-  const imgCharMap = characters.map((c) => [
-    c, images.find((i) =>
-      c.id === i.media.id
-    )
-  ])
-
-  console.log(characters.length, images.length, imgCharMap.length)
-
+function addCharacters(response) {
+  const characters = JSON.parse(response).cast.sort(byPopularity).filter(hasPoster)
   const $characters = document.querySelector('.characters')
 
-  imgCharMap.forEach(([character, image]) => {
-    const file = ((image && image.file_path) || character.poster_path)
-    if (file === null) return
+  characters.forEach((character) => {
+    if (character.profile_path === null) return
 
     const $link = document.createElement('a')
     $link.href = 'character.html?id=' + character.id
     $link.className = 'character'
 
     const $img = document.createElement('img')
-    $img.src = TMDB.common.getImage({ file: file })
+    $img.src = TMDB.common.getImage({ file: character.poster_path })
 
     $link.appendChild($img)
-
-    const $text = document.createElement('p')
-    $text.innerHTML = (character.name || character.title) + ' -- ' + character.character
-
-    $link.appendChild($text)
-
     $characters.appendChild($link)
   })
 }
 
-function taggedImages(creditsResponse) {
-  return TMDB.people.getTaggedImages(
-    { id: id },
-    ((imagesResponse) => addCharacters(creditsResponse, imagesResponse)),
-    console.error
-  )
-}
-
-TMDB.people.getCredits({ id: id }, taggedImages, console.error)
+TMDB.people.getCredits({ id: id }, addCharacters, console.error)
