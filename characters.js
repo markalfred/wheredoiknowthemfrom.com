@@ -12,7 +12,7 @@ function addCharacters(response) {
     if (character.profile_path === null) return
 
     const $link = document.createElement('a')
-    $link.href = 'character.html?id=' + character.id
+    $link.href = 'character.html?name=' + character.character + '&title=' + (character.title || character.name)
     $link.className = 'character'
 
     const $img = document.createElement('img')

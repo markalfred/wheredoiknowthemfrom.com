@@ -3,6 +3,10 @@ body {
   font-family: "Avenir Next";
 }
 
+strong {
+  color: #03A9F4;
+}
+
 h1 {
   font-size: 36px;
   font-weight: bold;
