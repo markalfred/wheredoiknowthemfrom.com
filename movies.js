@@ -11,7 +11,8 @@ function addMovies(response) {
   const $movies = document.querySelector('.movies')
 
   movies.forEach((movie) => {
-    if (movie.poster_path === null) return
+    if (movie.media_type === 'person') return
+    if (!movie.poster_path) return
 
     const $link = document.createElement('a')
     $link.href = './movie-actors.html?id=' + movie.id
@@ -66,7 +67,7 @@ function loadPopular(page) {
 
 function loadSearch(page) {
   if (noMorePages) return
-  TMDB.search.getMovie({ query: query, page: page }, addMovies, console.error)
+  TMDB.search.getMulti({ query: query, page: page }, addMovies, console.error)
 }
 
 loadPopular()
