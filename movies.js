@@ -44,10 +44,10 @@ search.addEventListener('input', (evt) => {
   if (!query) {
     searching = false
     popularPage = 1
-    loadPopular(popularPage)
+    loadPopular(popularPage++)
   } else {
     searching = true
-    loadSearch(searchPage)
+    loadSearch(searchPage++)
   }
 })
 
@@ -70,4 +70,4 @@ function loadSearch(page) {
   TMDB.search.getMulti({ query: query, page: page }, addMovies, console.error)
 }
 
-loadPopular()
+loadPopular(popularPage++)
