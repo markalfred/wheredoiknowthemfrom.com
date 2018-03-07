@@ -1,5 +1,6 @@
 const TMDB = window.theMovieDb
 const id = parseInt(window.location.search.replace('?id=', ''))
+const type = decodeURI(window.location.search.match(/type=([^&]+)/)[1])
 
 function addActors(response) {
   const actors = JSON.parse(response).cast
@@ -20,4 +21,7 @@ function addActors(response) {
   })
 }
 
-TMDB.movies.getCredits({ id: id }, addActors, console.error)
+let fn
+if (type === 'movie') { fn = TMDB.movies }
+if (type === 'tv') { fn = TMDB.tv }
+fn.getCredits({ id: id }, addActors, console.error)

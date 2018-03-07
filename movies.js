@@ -15,7 +15,7 @@ function addMovies(response) {
     if (!movie.poster_path) return
 
     const $link = document.createElement('a')
-    $link.href = './movie-actors.html?id=' + movie.id
+    $link.href = './movie-actors.html?id=' + movie.id + '&type=' + (movie.media_type || 'movie')
     $link.className = 'movie'
 
     const $img = document.createElement('img')
