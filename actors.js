@@ -1,13 +1,10 @@
 const TMDB = window.theMovieDb
 const id = parseInt(window.location.search.replace('?id=', ''))
-console.log('movie id: ', id)
 const type = decodeURI(window.location.search.match(/type=([^&]+)/)[1])
-console.log('type: ', type)
 
 function addActors(response) {
   const actors = JSON.parse(response).cast
   const $actors = document.querySelector('.actors')
-  console.log('actors: ', actors)
 
 
   actors.forEach((actor) => {
